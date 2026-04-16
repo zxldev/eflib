@@ -3,11 +3,11 @@
 package eflib
 
 import (
-	"go-eflib/efml"
+	"eflib/efml"
 )
 
 func Init(with_driver bool) error {
-	if (with_driver) {
+	if with_driver {
 		// init with driver
 		return efml.InitV2(false)
 	} else {

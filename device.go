@@ -3,11 +3,11 @@
 package eflib
 
 import (
+	"eflib/efml"
 	"fmt"
 	"log"
 	"os"
 	"time"
-	"go-eflib/efml"
 )
 
 func GetDriverVer() (string, error) {
@@ -686,8 +686,8 @@ func GetDeviceRmaDetails(h efml.Handle) (*efml.DevRmaDetails, error) {
 		if err == efml.ErrUnSupport {
 			rmaDetails = &efml.DevRmaDetails{
 				SupportRma: false,
-				Flags: false,
-				Dbe: 0,
+				Flags:      false,
+				Dbe:        0,
 			}
 			return rmaDetails, nil
 		}

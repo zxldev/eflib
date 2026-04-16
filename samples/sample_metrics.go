@@ -7,8 +7,8 @@ package metrics
 import (
 	"strconv"
 
-	"go-eflib"
-	"go-eflib/efml"
+	"eflib"
+	"eflib/efml"
 )
 
 type Metrics struct {
@@ -134,17 +134,17 @@ func collectMetrics() (*Metrics, error) {
 			}
 		}
 
-		state, _, err := eflib.GetDeviceState(minor)
+		ok, state := eflib.GetDeviceHealthState(minor, h)
+		if !ok {
+			continue
+		}
+
+		clock, _, err := eflib.GetDeviceClock(h)
 		if err != nil {
 			continue
 		}
 
-		clock, err := eflib.GetDeviceClock(h)
-		if err != nil {
-			continue
-		}
-
-		heartbeat := eflib.GetDeviceSSmHeartbeatHealthy(minor)
+		//heartbeat := eflib.GetDeviceSSmHeartbeatHealthy(minor)
 
 		eccStatus, err := eflib.GetDeviceEccStatus(h)
 		if err != nil {
@@ -166,45 +166,45 @@ func collectMetrics() (*Metrics, error) {
 			continue
 		}
 
-		currentResetCount, err := eflib.GetDeviceCurrentResetCount(minor)
-		if err != nil {
-			continue
-		}
+		//currentResetCount, err := eflib.GetDeviceCurrentResetCount(minor)
+		//if err != nil {
+		//	continue
+		//}
 
-		totalResetCount, err := eflib.GetDeviceTotalResetCount(minor)
-		if err != nil {
-			continue
-		}
+		//totalResetCount, err := eflib.GetDeviceTotalResetCount(minor)
+		//if err != nil {
+		//	continue
+		//}
 
 		health, healthmsg := eflib.GetDeviceHealthState(minor, h)
 
 		metrics.Devices = append(metrics.Devices,
 			&Device{
-				Host:              host,
-				Index:             strconv.Itoa(int(index)),
-				Minor:             strconv.Itoa(int(minor)),
-				Name:              name,
-				UUID:              uuid,
-				State:             state,
-				Health:            health,
-				HealthMsg:         healthmsg,
-				Heartbeat:         heartbeat,
-				PowerUsage:        float64(powerUsage),
-				MemorySize:        float64(memSize),
-				MemoryUsed:        float64(memUsed),
-				MemoryUsage:       float64(memUsage),
-				GcuUsage:          float64(gcuUsage),
-				ClusterUsage:      clusterUsage,
-				Temperature:       float64(temperature),
-				GcuClock:          float64(clock),
-				EccStatus:         eccStatus,
-				EslThroughput:     eslThroughput,
-				EslLink:           eslLink,
-				PcieLinkSpeed:     float64(pcieLinkSpeed),
-				PcieLinkWidth:     float64(pcieLinkWidth),
-				PcieLink:          pcieLink,
-				CurrentResetCount: float64(currentResetCount),
-				TotalResetCount:   float64(totalResetCount),
+				Host:      host,
+				Index:     strconv.Itoa(int(index)),
+				Minor:     strconv.Itoa(int(minor)),
+				Name:      name,
+				UUID:      uuid,
+				State:     state,
+				Health:    health,
+				HealthMsg: healthmsg,
+				//Heartbeat:         heartbeat,
+				PowerUsage:    float64(powerUsage),
+				MemorySize:    float64(memSize),
+				MemoryUsed:    float64(memUsed),
+				MemoryUsage:   float64(memUsage),
+				GcuUsage:      float64(gcuUsage),
+				ClusterUsage:  clusterUsage,
+				Temperature:   float64(temperature),
+				GcuClock:      float64(clock),
+				EccStatus:     eccStatus,
+				EslThroughput: eslThroughput,
+				EslLink:       eslLink,
+				PcieLinkSpeed: float64(pcieLinkSpeed),
+				PcieLinkWidth: float64(pcieLinkWidth),
+				PcieLink:      pcieLink,
+				//CurrentResetCount: float64(currentResetCount),
+				//TotalResetCount:   float64(totalResetCount),
 			})
 	}
 

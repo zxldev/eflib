@@ -6,13 +6,12 @@ import (
 	"log"
 	"time"
 
-	"go-eflib/efml"
+	"eflib/efml"
 )
-
 
 var oldSsmCount = [GCU_DEV_MAX]string{}
 
-func GetPcieLinkWidthHealthy(h efml.Handle) (bool) {
+func GetPcieLinkWidthHealthy(h efml.Handle) bool {
 	linkInfo, _ := h.GetPcieLinkInfo()
 	if linkInfo.Link_Width < linkInfo.Max_Link_Width {
 		log.Printf("Device pcie link width unhealthy.\n")
@@ -21,7 +20,7 @@ func GetPcieLinkWidthHealthy(h efml.Handle) (bool) {
 	return true
 }
 
-func GetDeviceTemperatureHealthy(h efml.Handle) (bool) {
+func GetDeviceTemperatureHealthy(h efml.Handle) bool {
 	var count uint32 = 0
 	thermalInfo, _ := h.GetDevTempV2()
 	if thermalInfo.Cur_Asic_Temp > 95 {
@@ -43,7 +42,7 @@ func GetDeviceTemperatureHealthy(h efml.Handle) (bool) {
 	return true
 }
 
-func GetDeviceEccDbeHealthy(h efml.Handle) (bool) {
+func GetDeviceEccDbeHealthy(h efml.Handle) bool {
 	eccStatus, _ := h.GetDevEccStatus()
 	if eccStatus.Ecnt_db > 0 {
 		log.Printf("The device ecc DBE error\n")
@@ -53,42 +52,42 @@ func GetDeviceEccDbeHealthy(h efml.Handle) (bool) {
 	return true
 }
 
-func GetDeviceRmaFlags(h efml.Handle) (bool) {
-/*
-	rmaStatus, _ := h.GetDevRmaStatus()
-	if rmaStatus.Flags {
-		log.Printf("The device rma flasg == true\n")
-		return true
-	}
-*/
+func GetDeviceRmaFlags(h efml.Handle) bool {
+	/*
+		rmaStatus, _ := h.GetDevRmaStatus()
+		if rmaStatus.Flags {
+			log.Printf("The device rma flasg == true\n")
+			return true
+		}
+	*/
 	return false
 }
 
 func GetDeviceHealthState(id uint32, h efml.Handle) (bool, string) {
 	var healthmsg string = ""
 	var errcount uint = 0
-/*
-	eccdbe := GetDeviceEccDbeHealthy(h)
-	if eccdbe == false {
-		errcount++
-		healthmsg = healthmsg + " ecc dbe > 0"
-	}
-	pciewidth := GetPcieLinkWidthHealthy(h)
-	if pciewidth == false {
-		errcount++
-		healthmsg = healthmsg + " pcie link width < max link width"
-	}
-	heartbeat := GetDeviceSSmHeartbeatHealthy(id)
-	if heartbeat == false {
-		errcount++
-		healthmsg = healthmsg + " SSM no heartbeat"
-	}
-	temperature := GetDeviceTemperatureHealthy(h)
-	if temperature == false {
-		errcount++
-		healthmsg = healthmsg + " temperature > 95°"
-	}
-*/
+	/*
+		eccdbe := GetDeviceEccDbeHealthy(h)
+		if eccdbe == false {
+			errcount++
+			healthmsg = healthmsg + " ecc dbe > 0"
+		}
+		pciewidth := GetPcieLinkWidthHealthy(h)
+		if pciewidth == false {
+			errcount++
+			healthmsg = healthmsg + " pcie link width < max link width"
+		}
+		heartbeat := GetDeviceSSmHeartbeatHealthy(id)
+		if heartbeat == false {
+			errcount++
+			healthmsg = healthmsg + " SSM no heartbeat"
+		}
+		temperature := GetDeviceTemperatureHealthy(h)
+		if temperature == false {
+			errcount++
+			healthmsg = healthmsg + " temperature > 95°"
+		}
+	*/
 	rmaflags := GetDeviceRmaFlags(h)
 	if rmaflags == true {
 		errcount++
