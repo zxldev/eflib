@@ -7,8 +7,8 @@ package metrics
 import (
 	"strconv"
 
-	"eflib"
-	"eflib/efml"
+	"github.com/zxldev/eflib"
+	"github.com/zxldev/eflib/efml"
 )
 
 type Metrics struct {

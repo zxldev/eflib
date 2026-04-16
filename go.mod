@@ -1,1 +1,1 @@
-module eflib
+module github.com/zxldev/eflib

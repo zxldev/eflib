@@ -3,7 +3,7 @@
 package eflib
 
 import (
-	"eflib/efml"
+	"github.com/zxldev/eflib/efml"
 )
 
 func Init(with_driver bool) error {

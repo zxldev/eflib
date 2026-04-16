@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"eflib/efml"
+	"github.com/zxldev/eflib/efml"
 )
 
 var oldSsmCount = [GCU_DEV_MAX]string{}

@@ -3,11 +3,12 @@
 package eflib
 
 import (
-	"eflib/efml"
 	"fmt"
 	"log"
 	"os"
 	"time"
+
+	"github.com/zxldev/eflib/efml"
 )
 
 func GetDriverVer() (string, error) {
